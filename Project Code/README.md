@@ -70,13 +70,16 @@ Durand, A., Hirzel, S., Rohde, C., Gebele, M., Lopes, C., Olsson, E., & Barkhaus
 #9th Jan 2026
 
 Today I am carrying out an experiment to see exactly how much electricity my kettle uses for one boil. According to the sticker at the end of my kettle the watts is 3000w. I will time how long it takes to boil a full kettle of 1.5 litres using a timer. I will also use a thermometer to check the temperature before and after boiling. I will then calculate using the watts and the appropriate formula the exact kWh.
-I will also video this experiment. 
+I will also video this experiment. (See Experiment Folder)
 
 #11th Jan 2026
 I am collecting data from the kettle and storing the data to a csv file. 
 I will use the data to analyse and display results.
 
 
+#28 Sep 2026
+Carrying on from the work in January I have created a github repo and uploaded the work done in Jan.
+I will now attempt to set up the Rpi and connect to ThingSpeak.
 
 
 

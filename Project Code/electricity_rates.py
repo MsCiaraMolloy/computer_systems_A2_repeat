@@ -1,23 +1,35 @@
-# This file creates a csv file to store the energy company data.
-# 1. Arden Energy - none available
-# 2. [0]Bord Gais Energy - 28.28c/kWh for day/night/peak 
-# 3. [1]Pinergy - day 41.77c/kWh / night 31.77c/kwH / peak 44.72c/kWh
-# 4. [2]Community Power - day 33.08c/kWh / night 19.15c/kwH / peak 39.84c/kWh
-# 5. Ecopower - none available
-# 6. [3]Energia - day 27.81c/kWh / night 15.29c/kwH / peak 31.22c/kWh
-# 7. [4]Electric Ireland - day 28.14c/kWh / night 14.79c/kwH / peak 30.02c/kWh
-# 8. [5]Flogas - day 26.6c/kWh / night 13.46c/kwH / peak 32.59c/kWh
-# 9. [6]Yuno - day/peak 34.16./kwh / night 20.64c/kwh
-# 10.[7]SSE Airtricity - day 28.29c/kWh / night 18.18c/kwH / peak 31.69c/kWh
-# 11.[8]Water Power - day 35.05c/kWh / night 25.31c/kwH / peak 37.98c/kWh
+# This file stores electricity supplier rate data for Ireland (rates as of Jan 2026).
+# Sources: individual supplier websites.
+# Arden Energy and Ecopower excluded - rates not publicly available.
+#
+# Updated: Refactored from separate parallel lists into a single list of dictionaries.
+# This makes it easy to loop through all suppliers and calculate costs in analysis.py.
+# Each dictionary contains: name, day rate, night rate, peak rate, and
+# annual standing charge (asc) in euro. PSO levy is shared across all suppliers.
 
-'''lecky_rates = open("electricity_rates.csv","w")
-lecky_rates.write("")
-lecky_rates.close()'''
-
-names = ['bord_gais','pinergy','community_power','energia','electric_ireland','flogas','yuno','sse_airtricity','water_power']
-day_rates = [0.2828, 0.4177, 0.3308, 0.2781, 0.2814, 0.2660, 0.3416, 0.2829, 0.3505]
-night_rates = [0.2828, 0.3177, 0.1915, 0.1529, 0.1479, 0.1346, 0.2064, 0.1818, 0.2531]
-peak_rates = [0.2828, 0.4472, 0.3984, 0.3122, 0.3002, 0.3259, 0.3416, 0.3169, 0.3798]
-asc = [244.76, 283.47, 278.50, 265.01, 250.77, 270.45, 247.94, 263.86, 246.67]
+# PSO (Public Service Obligation) levy - same for all suppliers (euro/year)
 pso_levy = 19.10
+
+# Updated: Supplier data now stored as a list of dictionaries (one per supplier).
+# Rates are in euro per kWh. asc is the annual standing charge in euro.
+suppliers = [
+    {"name": "Bord Gais",        "day": 0.2828, "night": 0.2828, "peak": 0.2828, "asc": 244.76},
+    {"name": "Pinergy",          "day": 0.4177, "night": 0.3177, "peak": 0.4472, "asc": 283.47},
+    {"name": "Community Power",  "day": 0.3308, "night": 0.1915, "peak": 0.3984, "asc": 278.50},
+    {"name": "Energia",          "day": 0.2781, "night": 0.1529, "peak": 0.3122, "asc": 265.01},
+    {"name": "Electric Ireland", "day": 0.2814, "night": 0.1479, "peak": 0.3002, "asc": 250.77},
+    {"name": "Flogas",           "day": 0.2660, "night": 0.1346, "peak": 0.3259, "asc": 270.45},
+    {"name": "Yuno",             "day": 0.3416, "night": 0.2064, "peak": 0.3416, "asc": 247.94},
+    {"name": "SSE Airtricity",   "day": 0.2829, "night": 0.1818, "peak": 0.3169, "asc": 263.86},
+    {"name": "Water Power",      "day": 0.3505, "night": 0.2531, "peak": 0.3798, "asc": 246.67},
+]
+
+# Updated: Current supplier details stored here separately.
+# These are the actual rates on the user's bill (may differ from the comparison rates above
+# due to discounts, cashback offers etc.).
+# Update current_supplier_name to match your provider if you switch.
+current_supplier_name = "Energia"
+current_day_rate   = 0.3865
+current_night_rate = 0.2125
+current_peak_rate  = 0.4340
+current_asc        = 265.01
