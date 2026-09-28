@@ -1,21 +1,38 @@
-# Updated: Importing supplier data from electricity_rates.py so we can compare costs across all providers.
+#Importing supplier data from electricity_rates.py so we can compare costs across all providers.
 from electricity_rates import suppliers, pso_levy, current_supplier_name, current_day_rate, current_night_rate, current_peak_rate, current_asc
+
+#Updated: importing requests library to fetch data from ThingSpeak via HTTP.
+import requests
 
 #Creating a sample csv to simulate one weeks records.
 #cycle_times = open("sample.csv","w")
 #cycle_times.write("00.00,12.30,17.32,18.05,06.09,08.12,09.10,07.15,12.05,20.08,22.00,15.20,14.00,17.10,19.25")
 #cycle_times.close()
 
+#Updated: added ThingSpeak channel details to fetch live boil data via the REST API.
+#My channel id and read api key are stored here - update these with your own channel details.
+#Results=200 fetches the last 200 entries from the channel, adjust as needed.
+channel_id = "3512900"
+read_api_key = "IXUBWCWPX6Q3VLG9"
+thingspeak_url = f"https://api.thingspeak.com/channels/{channel_id}/fields/1.json?api_key={read_api_key}&results=200"
 
-#Accessing csv file for analysis
-boil_times = open("sample.csv","r")
-all_times = boil_times.read()
-boil_times.close()
-print(all_times)
+#Updated: fetching boil time data from ThingSpeak instead of reading a local csv file.
+#The response comes back as JSON - pulling out the field1 values which are the boil times.
+#If the request fails it falls back to the local sample.csv so the script still runs.
+response = requests.get(thingspeak_url)
 
-#Converting items in the list to floats.
-all_times = all_times.split(",")
-all_times = [float(item) for item in all_times]
+if response.status_code == 200:
+    data = response.json()
+    raw_times = [entry["field1"] for entry in data["feeds"] if entry["field1"] is not None]
+    print(f"Fetched {len(raw_times)} boil records from ThingSpeak.")
+else:
+    print(f"Could not reach ThingSpeak (status {response.status_code}), falling back to sample.csv.")
+    boil_times = open("sample.csv","r")
+    raw_times = boil_times.read().split(",")
+    boil_times.close()
+
+#Converting items in the list to floats - same as before, works for both ThingSpeak and csv data.
+all_times = [float(item) for item in raw_times]
 
 #Calculating total number of times the kettle was boiled.
 total_boils = len(all_times)
