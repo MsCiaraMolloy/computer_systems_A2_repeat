@@ -81,6 +81,4 @@ I will use the data to analyse and display results.
 Carrying on from the work in January I have created a github repo and uploaded the work done in Jan.
 I will now attempt to set up the Rpi and connect to ThingSpeak.
 
-
-
-
+Wor
